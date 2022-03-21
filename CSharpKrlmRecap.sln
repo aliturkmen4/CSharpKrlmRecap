@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Array", "Diziler\Array.cspr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayMethods", "ArrayMethods\ArrayMethods.csproj", "{934CA675-DA01-45C4-8B03-4669417134BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DateTime_", "DateTime_\DateTime_.csproj", "{AE89CFA9-A4A8-453F-9EA8-22CC1CEF90DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{934CA675-DA01-45C4-8B03-4669417134BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{934CA675-DA01-45C4-8B03-4669417134BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{934CA675-DA01-45C4-8B03-4669417134BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE89CFA9-A4A8-453F-9EA8-22CC1CEF90DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE89CFA9-A4A8-453F-9EA8-22CC1CEF90DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE89CFA9-A4A8-453F-9EA8-22CC1CEF90DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE89CFA9-A4A8-453F-9EA8-22CC1CEF90DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
