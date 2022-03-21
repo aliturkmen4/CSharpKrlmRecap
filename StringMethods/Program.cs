@@ -30,7 +30,24 @@ namespace StringMethods
 
             Console.WriteLine(msg.Contains("there")); //string ifadem their kelimesini içeriyor mu dedim? true-false bilgisi döndürür!
 
+            Console.WriteLine(msg.IndexOf("name")); //name kelimesi kaçıncı indexten itibaren başlıyor bilgisini verir.
 
+            Console.WriteLine(msg.Substring(5)); //bize 5.indexten itibaren bilgiyi getirir! ' there. My name is ALİ Türkmen' olarak!
+
+            Console.WriteLine(msg.Substring(5,10)); //5.indexten 10 index getir! ' there.My ' getirir!
+
+            int index = msg.IndexOf("name");
+            Console.WriteLine(msg.Substring(index)); // önce name in kaçıncı index olduğunu buldum sonra o indexten sona kadar gitmesini sağladım!
+
+            Console.WriteLine(msg.Replace(" ","-")); //boşluk karakterlerini - karakterleri ile değiştirdim!
+
+            Console.WriteLine(msg.Insert(0,"---")); //0.karakterden başlasın --- eklesin dedim!
+
+            Console.WriteLine(msg.Insert(msg.Length,"---")); //string ifademin en sonuna --- eklesin dedim!
+
+            Console.WriteLine(msg.Remove(5)); //5.indexten itibaren sil dedim!
+
+            Console.WriteLine(msg.Remove(5,10)); //5.indexten itibaren 10 tane sil dedim!
         }
     }
 }
