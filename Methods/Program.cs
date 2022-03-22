@@ -66,6 +66,8 @@ namespace Methods
             Console.WriteLine(str1); //console ekranında yazırabilmek için!
             Console.WriteLine(str2);
             Console.WriteLine(str3);
+
+            //class'ın içinde bir methoda başka bir methodu kullanarak iş yaptıracaksan this keywordunu kullan!
         }
     }
 }
