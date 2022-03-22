@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConstructorMethodApplicatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Properties", "Properties\Properties.csproj", "{C10FE102-C76D-49EB-AA63-C4B1901C2972}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizApplication", "QuizApplication\QuizApplication.csproj", "{8DFDB7AF-3B81-4739-963F-B00F236F34AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{C10FE102-C76D-49EB-AA63-C4B1901C2972}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C10FE102-C76D-49EB-AA63-C4B1901C2972}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C10FE102-C76D-49EB-AA63-C4B1901C2972}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DFDB7AF-3B81-4739-963F-B00F236F34AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DFDB7AF-3B81-4739-963F-B00F236F34AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DFDB7AF-3B81-4739-963F-B00F236F34AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DFDB7AF-3B81-4739-963F-B00F236F34AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
