@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizApplication", "QuizAppl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StaticMembers", "StaticMembers\StaticMembers.csproj", "{014895B5-7674-433E-A9F2-384D784433F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StaticMembersApplication", "StaticMembersApplication\StaticMembersApplication.csproj", "{55A955BA-130B-4DC1-A893-FC3D3E120EFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,10 @@ Global
 		{014895B5-7674-433E-A9F2-384D784433F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{014895B5-7674-433E-A9F2-384D784433F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{014895B5-7674-433E-A9F2-384D784433F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55A955BA-130B-4DC1-A893-FC3D3E120EFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55A955BA-130B-4DC1-A893-FC3D3E120EFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55A955BA-130B-4DC1-A893-FC3D3E120EFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55A955BA-130B-4DC1-A893-FC3D3E120EFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
