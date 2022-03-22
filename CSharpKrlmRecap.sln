@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OverloadedMethods", "Overlo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConstructorMethods", "ConstructorMethods\ConstructorMethods.csproj", "{2280A465-A1DD-4D6D-9509-25A7C628AD29}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConstructorMethodApplication", "ConstructorMethodApplication\ConstructorMethodApplication.csproj", "{CE6760C3-B352-4816-9871-116FF7F8CE5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{2280A465-A1DD-4D6D-9509-25A7C628AD29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2280A465-A1DD-4D6D-9509-25A7C628AD29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2280A465-A1DD-4D6D-9509-25A7C628AD29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE6760C3-B352-4816-9871-116FF7F8CE5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE6760C3-B352-4816-9871-116FF7F8CE5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE6760C3-B352-4816-9871-116FF7F8CE5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE6760C3-B352-4816-9871-116FF7F8CE5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
