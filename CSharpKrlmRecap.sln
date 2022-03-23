@@ -31,15 +31,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConstructorMethods", "Const
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConstructorMethodApplication", "ConstructorMethodApplication\ConstructorMethodApplication.csproj", "{CE6760C3-B352-4816-9871-116FF7F8CE5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Properties", "Properties\Properties.csproj", "{C10FE102-C76D-49EB-AA63-C4B1901C2972}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Properties", "Properties\Properties.csproj", "{C10FE102-C76D-49EB-AA63-C4B1901C2972}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizApplication", "QuizApplication\QuizApplication.csproj", "{8DFDB7AF-3B81-4739-963F-B00F236F34AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizApplication", "QuizApplication\QuizApplication.csproj", "{8DFDB7AF-3B81-4739-963F-B00F236F34AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StaticMembers", "StaticMembers\StaticMembers.csproj", "{014895B5-7674-433E-A9F2-384D784433F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StaticMembers", "StaticMembers\StaticMembers.csproj", "{014895B5-7674-433E-A9F2-384D784433F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StaticMembersApplication", "StaticMembersApplication\StaticMembersApplication.csproj", "{55A955BA-130B-4DC1-A893-FC3D3E120EFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StaticMembersApplication", "StaticMembersApplication\StaticMembersApplication.csproj", "{55A955BA-130B-4DC1-A893-FC3D3E120EFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inheritance", "Inheritance\Inheritance.csproj", "{6C1C8E55-2C7C-466E-8B15-6DBC0FDBB534}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inheritance", "Inheritance\Inheritance.csproj", "{6C1C8E55-2C7C-466E-8B15-6DBC0FDBB534}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractClass", "AbstractClass\AbstractClass.csproj", "{72B5B9FF-1A66-4345-89FE-545A115DAFB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -123,6 +125,10 @@ Global
 		{6C1C8E55-2C7C-466E-8B15-6DBC0FDBB534}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C1C8E55-2C7C-466E-8B15-6DBC0FDBB534}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C1C8E55-2C7C-466E-8B15-6DBC0FDBB534}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72B5B9FF-1A66-4345-89FE-545A115DAFB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72B5B9FF-1A66-4345-89FE-545A115DAFB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72B5B9FF-1A66-4345-89FE-545A115DAFB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72B5B9FF-1A66-4345-89FE-545A115DAFB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
