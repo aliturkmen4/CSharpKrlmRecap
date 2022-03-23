@@ -33,6 +33,7 @@ namespace ExceptionApplication
             //2.kullanıcı 'q' değerini girmedikçe aldığınız her değerin sayısal olup olmadığını kontrol edin aksi halde hata mesajı verdirin!
 
             Console.WriteLine("--------------------------------");
+
             while (true)
             {
                 Console.WriteLine("sayı: ");

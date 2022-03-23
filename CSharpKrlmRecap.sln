@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThrowingtheException", "Thr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExceptionApplication", "ExceptionApplication\ExceptionApplication.csproj", "{1535D91A-BE98-4D0B-A52F-6D8188628C6E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomException", "CustomException\CustomException.csproj", "{52E6C9C1-BD8D-40ED-9B42-98060A58FEB1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +155,10 @@ Global
 		{1535D91A-BE98-4D0B-A52F-6D8188628C6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1535D91A-BE98-4D0B-A52F-6D8188628C6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1535D91A-BE98-4D0B-A52F-6D8188628C6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52E6C9C1-BD8D-40ED-9B42-98060A58FEB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52E6C9C1-BD8D-40ED-9B42-98060A58FEB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52E6C9C1-BD8D-40ED-9B42-98060A58FEB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52E6C9C1-BD8D-40ED-9B42-98060A58FEB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
