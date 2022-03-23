@@ -12,7 +12,7 @@ namespace EntityFramework
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) //hangi db provider'ı kullancağımı belirlediğim alan!
         {
             optionsBuilder.UseSqlServer("Data Source=shop.db");
-        }AAAA
+        }
     }
     public class Product
     {
