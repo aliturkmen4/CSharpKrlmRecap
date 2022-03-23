@@ -41,9 +41,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StaticMembersApplication", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inheritance", "Inheritance\Inheritance.csproj", "{6C1C8E55-2C7C-466E-8B15-6DBC0FDBB534}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractClass", "AbstractClass\AbstractClass.csproj", "{72B5B9FF-1A66-4345-89FE-545A115DAFB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractClass", "AbstractClass\AbstractClass.csproj", "{72B5B9FF-1A66-4345-89FE-545A115DAFB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interface", "Interface\Interface.csproj", "{72647235-5195-4836-B430-E71B875E62E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interface", "Interface\Interface.csproj", "{72647235-5195-4836-B430-E71B875E62E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExceptionandExceptionHandling", "ExceptionanExceptionHandling\ExceptionandExceptionHandling.csproj", "{813CAD5E-5B28-4952-96B1-577D65F64CB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -135,6 +137,10 @@ Global
 		{72647235-5195-4836-B430-E71B875E62E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72647235-5195-4836-B430-E71B875E62E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72647235-5195-4836-B430-E71B875E62E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{813CAD5E-5B28-4952-96B1-577D65F64CB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{813CAD5E-5B28-4952-96B1-577D65F64CB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{813CAD5E-5B28-4952-96B1-577D65F64CB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{813CAD5E-5B28-4952-96B1-577D65F64CB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
