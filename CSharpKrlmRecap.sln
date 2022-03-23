@@ -53,6 +53,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExceptionApplication", "Exc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomException", "CustomException\CustomException.csproj", "{52E6C9C1-BD8D-40ED-9B42-98060A58FEB1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFramework", "EntityFramework\EntityFramework.csproj", "{8AD30E44-3807-4EF4-B9A3-FC8CE7727C20}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -159,6 +161,10 @@ Global
 		{52E6C9C1-BD8D-40ED-9B42-98060A58FEB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52E6C9C1-BD8D-40ED-9B42-98060A58FEB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52E6C9C1-BD8D-40ED-9B42-98060A58FEB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AD30E44-3807-4EF4-B9A3-FC8CE7727C20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AD30E44-3807-4EF4-B9A3-FC8CE7727C20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AD30E44-3807-4EF4-B9A3-FC8CE7727C20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AD30E44-3807-4EF4-B9A3-FC8CE7727C20}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
