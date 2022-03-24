@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace EntityFramework
 {
@@ -46,7 +47,17 @@ namespace EntityFramework
 
             //yaptığın her değişiklikte bir migration oluşturup, kendin göndermelisin!
 
+            AddProduct();
+
+            GetAllProducts();
+
+            GetProductById(1); //id si 1 olanı getiriyor ekrana!
+
+            GetProductByName("Samsung"); //içerisinde samsung geçen bütün ürünleri bana getirir!
+
         }
+
+        //Veri Tabanına Kayıt Ekleme
 
         static void AddProducts()
         {
@@ -91,6 +102,64 @@ namespace EntityFramework
                 db.SaveChanges();
 
                 Console.WriteLine("Veri eklendi!");
+            }
+        }
+
+        //VeriTabanından Kayıt Seçme
+
+        static void GetAllProducts()
+        {
+            using(var context=new ShopContext())
+            {
+                var products = context
+                    .Products
+                     //new le ananymous bir şekilde oluşturdum! BURADA PRODUCT İÇİNDEN NELERİ SEÇECEĞİMİ BELİRLİYORUM!
+                       //Select * from değilde * yerine tablo adı verme işlemim oluyor!!!!!!!
+                    .ToList(); //böyle dediğimizde bir listenin referansını alırız!! veritabanına select sorgusu göndermiş oluyorum!
+
+                foreach (var p in products)
+                {
+                    Console.WriteLine($"name: {p.Name} price:{p.Price}");
+                }
+            }
+        }
+
+        static void GetProductById(int id)
+        {
+            using (var context = new ShopContext())
+            {
+                var result = context
+                    .Products
+                    .Where(p => p.ProductId == id) //productid si benim gönderdiğim id'ye koşulunu koydum!
+                    .Select(product => new //burada da id'yi seçmemesi için filtreleme yaptırdım!
+                    {
+                        product.Name,
+                        product.Price
+                    })
+                    .FirstOrDefault(); //bize uygun bir değer bulamazsa null değer gönderir!
+
+                Console.WriteLine($"name: {result.Name} price:{result.Price}");
+            }
+        }
+
+        static void GetProductByName(string name)
+        {
+            using (var context = new ShopContext())
+            {
+                var products = context
+                    .Products
+                    .Where(p => p.Name.ToLower().Contains(name.ToLower())) //benim gönderdiğim name i önce küçük harfe çevirdim sonra bu db deki küçük harfe çevrilmiş name'lerin içinde var mı dedim!
+                    .Select(product => new //burada da id'yi seçmemesi için filtreleme yaptırdım!
+                    {
+                        product.Name,
+                        product.Price
+                    })
+                    .ToList(); //listeye çevirmesini sağladım!
+
+                foreach (var p in products)
+                {
+                    Console.WriteLine($"name: {p.Name} price:{p.Price}");
+                }
             }
         }
     }
