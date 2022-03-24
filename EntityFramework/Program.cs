@@ -55,6 +55,7 @@ namespace EntityFramework
 
             GetProductByName("Samsung"); //içerisinde samsung geçen bütün ürünleri bana getirir!
 
+            UpdateProduct();
         }
 
         //Veri Tabanına Kayıt Ekleme
@@ -162,5 +163,66 @@ namespace EntityFramework
                 }
             }
         }
+
+        //Veri Tabanından Kayıt Güncelleme
+
+        static void UpdateProduct()
+        {
+            #region updatefirstway
+            //using(var db=new ShopContext())
+            //{
+            //    //change tracking => alınan objenin takibi yapılır!
+            //    var p = db
+            //        .Products
+            //        .AsNoTracking() //yaparsam p objesi takip edilmez! /change tracking kapatılır) yani yaptığım değişikliğin güncellemesini engellemiş oldum db tarafında!
+            //        .Where(i => i.ProductId == 1)
+            //        .FirstOrDefault(); //öncelikle güncelleyeceğim veriyi alıyorum!
+            //    if (p != null)
+            //    {
+            //        p.Price *= 1.2m; //m koyarak decimal sayı ile olduğunu belirttim!
+            //        db.SaveChanges(); //değişiklik yapılan alan güncellenmiş olur! update işlemi için change tracking sayesinde ayrı bir işleme gereksinim duyulmaz!
+
+            //        Console.WriteLine("Güncelleme yapıldı!");
+            //    } 
+            #endregion
+
+            #region updatesecondway
+            //using(var db=new ShopContext())
+            //{
+            //    var entity = new Product()
+            //    {
+            //        ProductId=1
+            //    };
+            //    db.Products.Attach(entity); //change tracking'i ilgili entity için aktif etmiş oluyorum!
+
+            //    entity.Price = 300;
+
+            //    db.SaveChanges();
+            //} 
+
+            //veri tabanından kayıt aldığın zaman güncelleme yapmayacaksan AsNoTracking() özelliğini kullanmalıyız ki change tracking ile objelerimin izi sürülmesin!
+            #endregion
+
+            #region updatethirdway
+            //using (var db=new ShopContext())
+            //{
+            //    var p = db
+            //        .Products
+            //        .Where(i => i.ProductId == 1)
+            //        .FirstOrDefault();
+            //    if (p != null)
+            //    {
+            //        p.Price = 2800;
+            //        db.Products.Update(p); //tek ürün güncellemek için!
+            //        //db.Products.UpdateRange(); //bir listeyi güncellemek için!
+            //        db.SaveChanges();
+            //    }
+
+            //} 
+            #endregion
+
+        }
+
+        
     }
 }
