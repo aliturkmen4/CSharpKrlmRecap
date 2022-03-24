@@ -23,10 +23,11 @@ namespace EntityFramework
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Customer> Customers { get; set; }
         public DbSet<Adress> Adresses { get; set; } //bunu yazmayabilirim User tarafından zaten otomatik olarak kullanılacağı için!
 
     }
-
+    //------------------------------------------------------------------------------------//
     //One to Many İlişki
     public class User
     {
@@ -36,6 +37,7 @@ namespace EntityFramework
 
         public string Mail { get; set; }
 
+        public Customer Customer { get; set; } //customer tablosunda da tek bir obje olarak tanımladım!(0ne to one relationship için!!!!)
         public List<Adress> Adresses { get; set; } //bir kullanıcının birden çok adresi olabileceği için list şeklinde tanımladım! //NAVIGATION PROPERTY
     }
     public class Adress //Bir kullanıcının birden çok adresi olabileceği için ayrı sınıf oalrak aç!
@@ -52,6 +54,33 @@ namespace EntityFramework
 
         public int UserId { get; set; } //foreignkey //UserId deyince user tablosunun bir referansı olduğunu anlıyor!
         //userıd ye int atadık, int nullable bir değer değil user tablosundan bir veri döndüremezsem 0 dönecek ve bende 0 user'ı olmadığı için hata alacağım! o yüzden int? yaparak bunu nullable yap!!!!!!!!!!!!!
+    }
+
+    //-------------------------------------------------------------------------------------//
+
+    //One to One ilişki
+
+    public class Customer
+    {
+        public int Id { get; set; }
+
+        public string IdentityNumber { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public User User { get; set; }
+        public int UserId { get; set; } //one to one relationship için buranın tek bir kayıda karşılık gelmesi (unique) olması lazım!
+    }
+
+    public class Supplier
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string TaxNumber { get; set; }
     }
     public class Product
     {
@@ -118,6 +147,34 @@ namespace EntityFramework
                 }
             }
             #endregion
+
+            using (var db=new ShopContext())
+            {
+                var customer = new Customer
+                {
+                    IdentityNumber="12313232",
+                    FirstName="Ali",
+                    LastName="Türkmen",
+                    User=db.Users.FirstOrDefault(i=>i.Id==3)
+                };
+                //db.Customers.Add(customer);
+                //db.SaveChanges();
+
+                var user = new User()
+                {
+                    UserName = "deneme",
+                    Mail = "deneme@deneme.com",
+                    Customer = new Customer()
+                    {
+                        FirstName = "Deneme",
+                        LastName="Deneme",
+                        IdentityNumber= "12345"
+                    }
+
+                };
+                db.Users.Add(user);
+                db.SaveChanges();
+            }
         }
         //Veri Tabanına Kayıt Ekleme
 
