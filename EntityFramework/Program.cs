@@ -56,6 +56,8 @@ namespace EntityFramework
             GetProductByName("Samsung"); //içerisinde samsung geçen bütün ürünleri bana getirir!
 
             UpdateProduct();
+
+            DeleteProduct(2);
         }
 
         //Veri Tabanına Kayıt Ekleme
@@ -222,7 +224,39 @@ namespace EntityFramework
             #endregion
 
         }
+        //Veri Tabanından Kayıt Silme
+        static void DeleteProduct(int id)
+        {
+            #region deletefirstway
+            //using (var db = new ShopContext())
+            //{
+            //    var p = db
+            //        .Products
+            //        .FirstOrDefault(i => i.ProductId == id); //select işlemi yapmamı sağlar!
+            //    if (p != null)
+            //    {
+            //        db.Products.Remove(p); //benden remove içine generic bir entity bekler(bendeki p yani Product listem)
+            //        db.SaveChanges();
 
+            //        Console.WriteLine("veri slindi!");
+            //    }
+            //} 
+            #endregion
+
+            using (var db=new ShopContext())
+            {
+                var p = new Product
+                {
+                    ProductId = 6
+                };
+
+                db.Entry(p).State = EntityState.Deleted; //ilgili objeyi context üzerinden sildiğimi change tracking'e haber vermiş oluyorum!
+
+                db.Products.Remove(p);
+
+                db.SaveChanges();
+            }
+        }
         
     }
 }
