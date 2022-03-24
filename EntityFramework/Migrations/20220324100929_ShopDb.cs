@@ -2,7 +2,7 @@
 
 namespace EntityFramework.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class ShopDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
