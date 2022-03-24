@@ -21,6 +21,37 @@ namespace EntityFramework
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
+        public DbSet<Adress> Adresses { get; set; } //bunu yazmayabilirim User tarafından zaten otomatik olarak kullanılacağı için!
+
+    }
+
+    //One to Many İlişki
+    public class User
+    {
+        public int Id { get; set; }
+
+        public string UserName { get; set; }
+
+        public string Mail { get; set; }
+
+        public List<Adress> Adresses { get; set; } //bir kullanıcının birden çok adresi olabileceği için list şeklinde tanımladım! //NAVIGATION PROPERTY
+    }
+    public class Adress //Bir kullanıcının birden çok adresi olabileceği için ayrı sınıf oalrak aç!
+    {
+        public int Id { get; set; }
+
+        public string FullName { get; set; }
+
+        public string Title { get; set; }
+
+        public string Body { get; set; }
+
+        public User User { get; set; } //user 1 tane olacağı için tekil tanımladım! //NAVIGATION PROPERTY
+
+        public int UserId { get; set; } //foreignkey //UserId deyince user tablosunun bir referansı olduğunu anlıyor!
+        //userıd ye int atadık, int nullable bir değer değil user tablosundan bir veri döndüremezsem 0 dönecek ve bende 0 user'ı olmadığı için hata alacağım! o yüzden int? yaparak bunu nullable yap!!!!!!!!!!!!!
     }
     public class Product
     {
@@ -32,6 +63,8 @@ namespace EntityFramework
         public string Name{ get; set; } //varchar(Max)
 
         public decimal Price { get; set; } //demical? dersem burası nullable olabilir demiş oluyorum!
+
+        public int CategoryId { get; set; }
     }
     public class Category
     {
@@ -39,6 +72,7 @@ namespace EntityFramework
 
         public string Name { get; set; }
     }
+
     class Program
     {
         static void Main(string[] args)
@@ -58,8 +92,33 @@ namespace EntityFramework
             UpdateProduct();
 
             DeleteProduct(2);
-        }
 
+            InsertUsers();
+
+            InsertAdresses();
+
+            #region IDGöndermedenOnetoMany
+            using (var db = new ShopContext()) //id bilgisi göndermeden user bilgilerine direk ilgili user objesi ile direkt ilişkilendirmiş oluyorum!(ID GÖNDERMEDEN INSERT ADRESSES)
+            {
+                var users = db.Users.FirstOrDefault(i => i.UserName == "alitrkmn");
+
+                if (users != null)
+                {
+                    users.Adresses = new List<Adress>();
+                    users.Adresses.AddRange(
+                        new List<Adress>
+                        {
+                            new Adress{FullName="Ali Türkmen",Title="Ev adresi",Body="Antalya",UserId=1},
+                            new Adress{FullName="Ali Türkmen",Title="Ev adresi",Body="Antalya",UserId=1},
+                            new Adress{FullName="Ali Türkmen",Title="Ev adresi",Body="Antalya",UserId=1}
+
+                        }
+                    );
+                    db.SaveChanges();
+                }
+            }
+            #endregion
+        }
         //Veri Tabanına Kayıt Ekleme
 
         static void AddProducts()
@@ -243,20 +302,64 @@ namespace EntityFramework
             //} 
             #endregion
 
+            #region deletesecondway
+            //using (var db=new ShopContext())
+            //{
+            //    var p = new Product
+            //    {
+            //        ProductId = 6
+            //    };
+
+            //    db.Entry(p).State = EntityState.Deleted; //ilgili objeyi context üzerinden sildiğimi change tracking'e haber vermiş oluyorum!
+
+            //    db.Products.Remove(p);
+
+            //    db.SaveChanges();
+            //} 
+            #endregion
+
+        }
+
+        //One to Many İlişki
+
+        static void InsertUsers()
+        {
+            var users = new List<User>()
+            {
+                new User{UserName="alitrkmn",Mail="info@alitrkmn.com" },
+                new User{UserName="rslaktoz",Mail="info@rslaktoz.com" },
+                new User{UserName="erynrtkn",Mail="info@erynrtkn.com" },
+                new User{UserName="srfhmthrs",Mail="info@srfhmthrs.com" },
+                new User{UserName="snmkstk",Mail="info@snmkstk.com" },
+            };
+
             using (var db=new ShopContext())
             {
-                var p = new Product
-                {
-                    ProductId = 6
-                };
-
-                db.Entry(p).State = EntityState.Deleted; //ilgili objeyi context üzerinden sildiğimi change tracking'e haber vermiş oluyorum!
-
-                db.Products.Remove(p);
-
+                db.Users.AddRange(users); //collection şeklinde eklemek için!
                 db.SaveChanges();
             }
         }
-        
+        #region IDGöndererekOnetoMany
+        static void InsertAdresses()
+        {
+            var adresses = new List<Adress>()
+            {
+                new Adress{FullName="Ali Türkmen",Title="Ev adresi",Body="Antalya",UserId=1},
+                new Adress{FullName="Ali Türkmen",Title="İş adresi",Body="Antalya",UserId=1},
+                new Adress{FullName="Resul Aktoz",Title="Ev adresi",Body="Adana",UserId=2},
+                new Adress{FullName="Eray Nurtekin",Title="Ev adresi",Body="Kırklareli",UserId=3},
+                new Adress{FullName="Eray Nurtekin",Title="İş adresi",Body="Kırklareli",UserId=3},
+                new Adress{FullName="Şerif Ahmet Haras",Title="Ev adresi",Body="Manisa",UserId=4},
+                new Adress{FullName="Sinem Kestek",Title="Ev adresi",Body="Eskişehir",UserId=5},
+            };
+
+            using (var db = new ShopContext())
+            {
+                db.Adresses.AddRange(adresses); //collection şeklinde eklemek için!
+                db.SaveChanges();
+            }
+        }
+        #endregion
+
     }
 }
