@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace EntityFramework
@@ -20,6 +21,17 @@ namespace EntityFramework
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //modelBuilder.Entity<User>()
+                //.HasIndex(u => u.UserName)
+                //.IsUnique();
+
+            modelBuilder.Entity<Product>().ToTable("Urunler"); //product tablosunun adını ürünler olarak adlandırdım!
+
+            modelBuilder.Entity<Customer>() //max 11 karakter alacak bir required alan!
+                .Property(p => p.IdentityNumber)
+                .HasMaxLength(11)
+                .IsRequired();
+        
             modelBuilder.Entity<ProductCategory>()
                     .HasKey(t => new { t.ProductId, t.CategoryId }); //productcategory entitysine geçiş yaptım ve bu entity nin bir key i olmasını sağladım , bu anahtarı da iki ıd kombinasyonu olacak şekilde belirttim! BUNU YAPTIKTAN SONRA TEKRARLAYAN KAYITLAR ARTIK DB TARAFINA KABUL EDİLMEZ!
 
@@ -48,9 +60,10 @@ namespace EntityFramework
     public class User
     {
         public int Id { get; set; }
-
-        public string UserName { get; set; }
-
+        //[Required]
+        //[MaxLength(15), MinLength(8)]
+        public string UserName { get; set; } //burada username'i reuired alan ve maxlength'i 15, minlength'i 8 olacak dedim!
+        //[Column(TypeName ="varchar(20)")]
         public string Mail { get; set; }
 
         public Customer Customer { get; set; } //customer tablosunda da tek bir obje olarak tanımladım!(0ne to one relationship için!!!!)
@@ -78,13 +91,18 @@ namespace EntityFramework
 
     public class Customer
     {
+
+        [Column("customer_id")] //uygulama tarafındaki id bilgisi veritabanında customer_id ye karşılık gelir!
         public int Id { get; set; }
-
+        [Required]
         public string IdentityNumber { get; set; }
-
+        [Required]
         public string FirstName { get; set; }
-
+        [Required]
         public string LastName { get; set; }
+        [NotMapped] //oluşacak customer tablosunda fullname'i görmememizi sağlar! 
+        [Required]
+        public string FullName { get; set; }
 
         public User User { get; set; }
         public int UserId { get; set; } //one to one relationship için buranın tek bir kayıda karşılık gelmesi (unique) olması lazım!
@@ -100,14 +118,21 @@ namespace EntityFramework
     }
     public class Product
     {
-        //public int Id{ get; set; } //primary key (Id,<type-name>Id) olacak!
+         //database tarafına otomatik oalrak bir sayı gönderilmeyeceğini belirledim!!
         public int ProductId { get; set; } //primary key ya da bu şekilde tip adı verilerek tanımlanır!
+        //public int Id{ get; set; } //primary key (Id,<type-name>Id) olacak!
 
         [MaxLength(100)] //varchar değerime max 100 dedim!
         [Required] //alanı zorunlu kıldım!
         public string Name{ get; set; } //varchar(Max)
 
         public decimal Price { get; set; } //demical? dersem burası nullable olabilir demiş oluyorum!
+
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)] //burada bu bilginin 1 kere aktarılacağını bir daha değiştirilemeyeceğini belirttim!
+        public DateTime InsertedDate { get; set; } = DateTime.Now; //obje oluşturulduğu zaman bilgiyi set ettim!
+
+        //[DatabaseGenerated(DatabaseGeneratedOption.Computed)] //computed seçersem insert ve update sorgularında değiştirilen bir alan olacağını söyledim!!
+        public DateTime LastUpdatedDate { get; set; } = DateTime.Now;
 
         public int CategoryId { get; set; }
 
@@ -124,6 +149,9 @@ namespace EntityFramework
     //-------------------------------------------------------------------------------------//
 
     //Many to Many İlişki
+
+    // [NotMapped] //böyle dersem productcategorynin ilgili db içinde bir tablo olarak oluşturulmayacağını belirtiyorum!
+    [Table("UrunKategorileri")] //db içerisindeki tablolara isim verdim. productcategory artık urunkategorileri olarak karşıma gelcek
     public class ProductCategory //junction(geçiş) tablosu 
     {   
         public int ProductId { get; set; }
@@ -149,7 +177,7 @@ namespace EntityFramework
 
             GetAllProducts();
 
-            GetProductById(1); //id si 1 olanı getiriyor ekrana!
+            GetProductById(5); //id si 5 olanı getiriyor ekrana!
 
             GetProductByName("Samsung"); //içerisinde samsung geçen bütün ürünleri bana getirir!
 
@@ -157,30 +185,30 @@ namespace EntityFramework
 
             DeleteProduct(2);
 
-            InsertUsers();
+           // InsertUsers();
 
             InsertAdresses();
 
             #region IDGöndermedenOnetoMany
-            using (var db = new ShopContext()) //id bilgisi göndermeden user bilgilerine direk ilgili user objesi ile direkt ilişkilendirmiş oluyorum!(ID GÖNDERMEDEN INSERT ADRESSES)
-            {
-                var users = db.Users.FirstOrDefault(i => i.UserName == "alitrkmn");
+            //using (var db = new ShopContext()) //id bilgisi göndermeden user bilgilerine direk ilgili user objesi ile direkt ilişkilendirmiş oluyorum!(ID GÖNDERMEDEN INSERT ADRESSES)
+            //{
+            //    var users = db.Users.FirstOrDefault(i => i.UserName == "alitrkmn");
 
-                if (users != null)
-                {
-                    users.Adresses = new List<Adress>();
-                    users.Adresses.AddRange(
-                        new List<Adress>
-                        {
-                            new Adress{FullName="Ali Türkmen",Title="Ev adresi",Body="Antalya",UserId=1},
-                            new Adress{FullName="Ali Türkmen",Title="Ev adresi",Body="Antalya",UserId=1},
-                            new Adress{FullName="Ali Türkmen",Title="Ev adresi",Body="Antalya",UserId=1}
+            //    if (users != null)
+            //    {
+            //        users.Adresses = new List<Adress>();
+            //        users.Adresses.AddRange(
+            //            new List<Adress>
+            //            {
+            //                new Adress{FullName="Ali Türkmen",Title="Ev adresi",Body="Antalya",UserId=1},
+            //                new Adress{FullName="Ali Türkmen",Title="Ev adresi",Body="Antalya",UserId=1},
+            //                new Adress{FullName="Ali Türkmen",Title="Ev adresi",Body="Antalya",UserId=1}
 
-                        }
-                    );
-                    db.SaveChanges();
-                }
-            }
+            //            }
+            //        );
+            //        db.SaveChanges();
+            //    }
+            //}
             #endregion
 
             #region OneToOnerRelationsecondway
@@ -213,33 +241,55 @@ namespace EntityFramework
             //} 
             #endregion
 
+            #region ManyToManyRelation
+            //using (var db = new ShopContext())
+            //{
+            //    var products = new List<Product>
+            //    {
+            //        new Product(){Name="Samsung S5",Price=2000},
+            //        new Product(){Name="Samsung S6",Price=3000},
+            //        new Product(){Name="Samsung S7",Price=4000},
+            //        new Product(){Name="Samsung S8",Price=5000},
+            //    };
+
+            //    //db.Products.AddRange(products);
+
+            //    var categories = new List<Category>()
+            //    {
+            //        new Category(){Name="Telefon"},
+            //        new Category(){Name="Telefon"},
+            //        new Category(){Name="Telefon"},
+            //    };
+
+            //    //db.Categories.AddRange(categories);
+
+            //    int[] ids = new int[2] { 1, 2 };
+
+            //    var p = db.Products.Find(1); //find methodu benden id bilgisi bekler!
+
+            //    p.ProductCategories = ids.Select(cid => new ProductCategory()
+            //    {
+            //        CategoryId = cid,
+            //        ProductId = p.ProductId
+            //    }).ToList();
+
+            //    db.SaveChanges();
+            //}
+            #endregion
+
             using (var db=new ShopContext())
             {
-                var products = new List<Product>
-                {
-                    new Product(){Name="Samsung S5",Price=2000},
-                    new Product(){Name="Samsung S6",Price=3000},
-                    new Product(){Name="Samsung S7",Price=4000},
-                    new Product(){Name="Samsung S8",Price=5000},
-                };
+                //var p1 = new Product()
+                //{
+                //    Name = "Samsung S15",
+                //    Price=12000
+                //};
 
+                //db.Products.AddRange(p1);
 
-                var categories = new List<Category>()
-                {
-                    new Category(){Name="Telefon"},
-                    new Category(){Name="Telefon"},
-                    new Category(){Name="Telefon"},
-                };
+                var p3 = db.Products.FirstOrDefault();
 
-                int[] ids = new int[2] { 1, 2 };
-
-                var p = db.Products.Find(1); //find methodu benden id bilgisi bekler!
-
-                p.ProductCategories = ids.Select(cid => new ProductCategory()
-                {
-                    CategoryId = cid,
-                    ProductId=p.ProductId
-                }).ToList();
+                p3.Name = "Samsung S15";
 
                 db.SaveChanges();
             }
@@ -259,15 +309,17 @@ namespace EntityFramework
                     new Product {Name = "Samsung S7",
                     Price = 4002   },
                     new Product {Name = "Samsung S8",
-                    Price = 5003   }
+                    Price = 5003   },
+                    new Product {Name = "Samsung S19",
+                    Price = 8603   }
 
                 };
-    //foreach (var item in products) //bu şekilde db e ekleyebilirim!
-    //{
-    //    db.Products.Add(item);
-    //}
+                    //foreach (var item in products) //bu şekilde db e ekleyebilirim!
+                    //{
+                    //  db.Products.Add(item);
+                    //}
 
-    db.Products.AddRange(products); //db'ye collection şeklinde eklemek için!
+                 db.Products.AddRange(products); //db'ye collection şeklinde eklemek için!
                 db.SaveChanges();
 
                 Console.WriteLine("Veriler eklendi!");
@@ -278,13 +330,14 @@ namespace EntityFramework
         {
             using (var db = new ShopContext()) //=>using: işim bittiği zaman bellekten silinmesi için!!!!
             {
-                var p= new Product
+                var p = new Product
                 {
-                    Name = "Samsung S10",
+                  
+                    Name = "Samsung S19",
                     Price = 8008
-                };               
-               
-                 db.Products.Add(p);
+                };
+
+                db.Products.Add(p);
 
                 db.SaveChanges();
 
@@ -447,23 +500,23 @@ namespace EntityFramework
 
         //One to Many İlişki
 
-        static void InsertUsers()
-        {
-            var users = new List<User>()
-            {
-                new User{UserName="alitrkmn",Mail="info@alitrkmn.com" },
-                new User{UserName="rslaktoz",Mail="info@rslaktoz.com" },
-                new User{UserName="erynrtkn",Mail="info@erynrtkn.com" },
-                new User{UserName="srfhmthrs",Mail="info@srfhmthrs.com" },
-                new User{UserName="snmkstk",Mail="info@snmkstk.com" },
-            };
+        //static void InsertUsers()
+        //{
+        //    var users = new List<User>()
+        //    {
+        //        new User{UserName="alitrkmn",Mail="info@alitrkmn.com" },
+        //        new User{UserName="rslaktoz",Mail="info@rslaktoz.com" },
+        //        new User{UserName="erynrtkn",Mail="info@erynrtkn.com" },
+        //        new User{UserName="srfhmthrs",Mail="info@srfhmthrs.com" },
+        //        new User{UserName="snmkstk",Mail="info@snmkstk.com" }
+        //    };
 
-            using (var db=new ShopContext())
-            {
-                db.Users.AddRange(users); //collection şeklinde eklemek için!
-                db.SaveChanges();
-            }
-        }
+        //    using (var db=new ShopContext())
+        //    {
+        //        db.Users.AddRange(users); //collection şeklinde eklemek için!
+        //        db.SaveChanges();
+        //    }
+        //}
         #region IDGöndererekOnetoMany
         static void InsertAdresses()
         {
