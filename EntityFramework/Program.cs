@@ -18,6 +18,22 @@ namespace EntityFramework
                 .UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=ShopDb;Integrated security=true");
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ProductCategory>()
+                    .HasKey(t => new { t.ProductId, t.CategoryId }); //productcategory entitysine geçiş yaptım ve bu entity nin bir key i olmasını sağladım , bu anahtarı da iki ıd kombinasyonu olacak şekilde belirttim! BUNU YAPTIKTAN SONRA TEKRARLAYAN KAYITLAR ARTIK DB TARAFINA KABUL EDİLMEZ!
+
+            modelBuilder.Entity<ProductCategory>()
+                .HasOne(pc => pc.Product) //burada productcategory tablosuna gittim ve buradakini product entity sinin bizim için tek bir tane olacağını söyledim!
+                .WithMany(p => p.ProductCategories) //çoğul olduğunu burada söyledim!
+                .HasForeignKey(pc => pc.ProductId); //productıd'nin bu tablonun foreign key'i olacağını söyledim!
+
+            modelBuilder.Entity<ProductCategory>()
+                .HasOne(pc => pc.Category) //burada productcategory tablosuna gittim ve buradakini category entity sinin bizim için tek bir tane olacağını söyledim!
+                .WithMany(c => c.ProductCategories) //çoğul olduğunu burada söyledim!
+                .HasForeignKey(pc => pc.CategoryId); //categoryıd'nin bu tablonun foreign key'i olacağını söyledim!
+        }
+
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
 
@@ -94,12 +110,31 @@ namespace EntityFramework
         public decimal Price { get; set; } //demical? dersem burası nullable olabilir demiş oluyorum!
 
         public int CategoryId { get; set; }
+
+        public List<ProductCategory> ProductCategories { get; set; }
     }
     public class Category
     {
-        public int CategoryId { get; set; }
+        public int CategoryId { get; set; } //bunu kendisi key olarak algılar!
 
         public string Name { get; set; }
+
+        public List<ProductCategory> ProductCategories { get; set; }
+    }
+    //-------------------------------------------------------------------------------------//
+
+    //Many to Many İlişki
+    public class ProductCategory //junction(geçiş) tablosu 
+    {   
+        public int ProductId { get; set; }
+
+        public Product Product { get; set; } //navigation property
+
+        public int CategoryId { get; set; }
+
+        public Category Category { get; set; } //navigation property
+
+        //burada ProductId ve CategoryId de pk olacak şekilde ayarlayıp ,productcategory nesnesine ayrı bir id vermiyorum sebebi, bir product id karşına farklı categoryıd ler gelsin diye yani çoka çok ilişki kurmak için!
     }
 
     class Program
@@ -148,31 +183,64 @@ namespace EntityFramework
             }
             #endregion
 
+            #region OneToOnerRelationsecondway
+            //using (var db=new ShopContext())
+            //{
+            //    var customer = new Customer
+            //    {
+            //        IdentityNumber="12313232",
+            //        FirstName="Ali",
+            //        LastName="Türkmen",
+            //        User=db.Users.FirstOrDefault(i=>i.Id==3)
+            //    };
+            //    //db.Customers.Add(customer);
+            //    //db.SaveChanges();
+
+            //    var user = new User()
+            //    {
+            //        UserName = "deneme",
+            //        Mail = "deneme@deneme.com",
+            //        Customer = new Customer()
+            //        {
+            //            FirstName = "Deneme",
+            //            LastName="Deneme",
+            //            IdentityNumber= "12345"
+            //        }
+
+            //    };
+            //    db.Users.Add(user);
+            //    db.SaveChanges();
+            //} 
+            #endregion
+
             using (var db=new ShopContext())
             {
-                var customer = new Customer
+                var products = new List<Product>
                 {
-                    IdentityNumber="12313232",
-                    FirstName="Ali",
-                    LastName="Türkmen",
-                    User=db.Users.FirstOrDefault(i=>i.Id==3)
+                    new Product(){Name="Samsung S5",Price=2000},
+                    new Product(){Name="Samsung S6",Price=3000},
+                    new Product(){Name="Samsung S7",Price=4000},
+                    new Product(){Name="Samsung S8",Price=5000},
                 };
-                //db.Customers.Add(customer);
-                //db.SaveChanges();
 
-                var user = new User()
+
+                var categories = new List<Category>()
                 {
-                    UserName = "deneme",
-                    Mail = "deneme@deneme.com",
-                    Customer = new Customer()
-                    {
-                        FirstName = "Deneme",
-                        LastName="Deneme",
-                        IdentityNumber= "12345"
-                    }
-
+                    new Category(){Name="Telefon"},
+                    new Category(){Name="Telefon"},
+                    new Category(){Name="Telefon"},
                 };
-                db.Users.Add(user);
+
+                int[] ids = new int[2] { 1, 2 };
+
+                var p = db.Products.Find(1); //find methodu benden id bilgisi bekler!
+
+                p.ProductCategories = ids.Select(cid => new ProductCategory()
+                {
+                    CategoryId = cid,
+                    ProductId=p.ProductId
+                }).ToList();
+
                 db.SaveChanges();
             }
         }
