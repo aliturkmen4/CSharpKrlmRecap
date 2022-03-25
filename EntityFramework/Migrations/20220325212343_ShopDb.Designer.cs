@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EntityFramework.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20220325125241_ShopDbrepaired1")]
-    partial class ShopDbrepaired1
+    [Migration("20220325212343_ShopDb")]
+    partial class ShopDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -105,11 +105,9 @@ namespace EntityFramework.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("InsertedDate")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("LastUpdatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -148,17 +146,16 @@ namespace EntityFramework.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Mail")
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserName")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[UserName] IS NOT NULL");
 
                     b.ToTable("Users");
                 });

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EntityFramework.Migrations
 {
-    public partial class ShopDbrepaired1 : Migration
+    public partial class ShopDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,8 +43,8 @@ namespace EntityFramework.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(maxLength: 15, nullable: false),
-                    Mail = table.Column<string>(type: "varchar(20)", nullable: true)
+                    UserName = table.Column<string>(nullable: true),
+                    Mail = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -139,7 +139,8 @@ namespace EntityFramework.Migrations
                 name: "IX_Users_UserName",
                 table: "Users",
                 column: "UserName",
-                unique: true);
+                unique: true,
+                filter: "[UserName] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

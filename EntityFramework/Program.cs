@@ -21,9 +21,9 @@ namespace EntityFramework
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<User>()
-                //.HasIndex(u => u.UserName)
-                //.IsUnique();
+            modelBuilder.Entity<User>()
+                 .HasIndex(u => u.UserName)
+                  .IsUnique();
 
             modelBuilder.Entity<Product>().ToTable("Urunler"); //product tablosunun adını ürünler olarak adlandırdım!
 
@@ -165,6 +165,51 @@ namespace EntityFramework
         //burada ProductId ve CategoryId de pk olacak şekilde ayarlayıp ,productcategory nesnesine ayrı bir id vermiyorum sebebi, bir product id karşına farklı categoryıd ler gelsin diye yani çoka çok ilişki kurmak için!
     }
 
+    // Data Seeding
+
+    public static class DataSeeding
+    {
+        public static void Seed(DbContext context) //genel bir context yapısından türetilecek context'i içine alacak!
+        {
+            if (context.Database.GetPendingMigrations().Count() == 0) //database 'e aktarılmayı bekleyen bir migration yoksa!
+            {
+                if(context is ShopContext) //gönderilen context Shop Context mi?
+                {
+                    ShopContext _context = context as ShopContext;
+
+                    if (_context.Products.Count() == 0)
+                    {
+                        _context.Products.AddRange(Products);
+                    }
+
+                    if (_context.Categories.Count() == 0)
+                    {
+                        _context.Categories.AddRange(Categories);
+                    }
+                }
+
+                context.SaveChanges();
+            }
+        }
+
+        private static Product[] Products =
+        {
+            new Product(){Name="Samsung S17",Price=15000},
+            new Product(){Name="Samsung S27",Price=16000},
+            new Product(){Name="Samsung S37",Price=17000},
+            new Product(){Name="Samsung S47",Price=18000},
+            new Product(){Name="Samsung S57",Price=19000}
+        };
+
+        private static Category[] Categories =
+        {
+            new Category(){Name="Telefon"},
+            new Category(){Name="Elektronik"},
+            new Category(){Name="Bilgisayar"}
+
+        };
+    }
+
     class Program
     {
         static void Main(string[] args)
@@ -177,7 +222,7 @@ namespace EntityFramework
 
             GetAllProducts();
 
-            GetProductById(5); //id si 5 olanı getiriyor ekrana!
+            //GetProductById(5); //id si 5 olanı getiriyor ekrana!
 
             GetProductByName("Samsung"); //içerisinde samsung geçen bütün ürünleri bana getirir!
 
@@ -185,7 +230,7 @@ namespace EntityFramework
 
             DeleteProduct(2);
 
-           // InsertUsers();
+            //InsertUsers();
 
             InsertAdresses();
 
@@ -293,6 +338,8 @@ namespace EntityFramework
 
                 db.SaveChanges();
             }
+
+            DataSeeding.Seed(new ShopContext());
         }
         //Veri Tabanına Kayıt Ekleme
 
@@ -364,23 +411,23 @@ namespace EntityFramework
             }
         }
 
-        static void GetProductById(int id)
-        {
-            using (var context = new ShopContext())
-            {
-                var result = context
-                    .Products
-                    .Where(p => p.ProductId == id) //productid si benim gönderdiğim id'ye koşulunu koydum!
-                    .Select(product => new //burada da id'yi seçmemesi için filtreleme yaptırdım!
-                    {
-                        product.Name,
-                        product.Price
-                    })
-                    .FirstOrDefault(); //bize uygun bir değer bulamazsa null değer gönderir!
+        //static void GetProductById(int id)
+        //{
+        //    using (var context = new ShopContext())
+        //    {
+        //        var result = context
+        //            .Products
+        //            .Where(p => p.ProductId == id) //productid si benim gönderdiğim id'ye koşulunu koydum!
+        //            .Select(product => new //burada da id'yi seçmemesi için filtreleme yaptırdım!
+        //            {
+        //                product.Name,
+        //                product.Price
+        //            })
+        //            .FirstOrDefault(); //bize uygun bir değer bulamazsa null değer gönderir!
 
-                Console.WriteLine($"name: {result.Name} price:{result.Price}");
-            }
-        }
+        //        Console.WriteLine($"name: {result.Name} price:{result.Price}");
+        //    }
+        //}
 
         static void GetProductByName(string name)
         {
@@ -500,23 +547,33 @@ namespace EntityFramework
 
         //One to Many İlişki
 
-        //static void InsertUsers()
-        //{
-        //    var users = new List<User>()
-        //    {
-        //        new User{UserName="alitrkmn",Mail="info@alitrkmn.com" },
-        //        new User{UserName="rslaktoz",Mail="info@rslaktoz.com" },
-        //        new User{UserName="erynrtkn",Mail="info@erynrtkn.com" },
-        //        new User{UserName="srfhmthrs",Mail="info@srfhmthrs.com" },
-        //        new User{UserName="snmkstk",Mail="info@snmkstk.com" }
-        //    };
+        #region InsertUsers()
+        static void InsertUsers()
+        {
+            var use = new List<User>()
+            {
+                new User{UserName="alirkmn",Mail="info@alirkmn.com"},
+                new User{UserName="rslakoz",Mail="info@rslatoz.com" },
+                new User{UserName="eryntkn",Mail="info@erynrkn.com" },
+                new User{UserName="srfhmhrs",Mail="info@srfhmhrs.com" },
+                new User{UserName="snmksk",Mail="info@snmstk.com" }
+            };
 
-        //    using (var db=new ShopContext())
-        //    {
-        //        db.Users.AddRange(users); //collection şeklinde eklemek için!
-        //        db.SaveChanges();
-        //    }
-        //}
+            using (var db = new ShopContext())
+            {
+                //db.Users.AddRange(use); //collection şeklinde eklemek için!
+                //db.SaveChanges();
+
+                foreach (var item in use)
+                {
+                    db.Users.Add(item);
+
+                    db.SaveChanges();
+                }
+            }
+        }
+        #endregion
+
         #region IDGöndererekOnetoMany
         static void InsertAdresses()
         {
@@ -538,6 +595,10 @@ namespace EntityFramework
             }
         }
         #endregion
+
+        //Data Seeding: Test verilerini database oluşturma sırasında eklemek!!!!
+
+        //Scaffolding Database: Elimizde var olan database'in ef core kullanarak şemasını uygulama tarafına aktarmaya denir! (DB FIRST)
 
     }
 }
