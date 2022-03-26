@@ -168,13 +168,14 @@ namespace EntityFramework
 
         // Data Seeding
 
+        #region DataSeeding
         //public static class DataSeeding
         //{
         //    public static void Seed(DbContext context) //genel bir context yapısından türetilecek context'i içine alacak!
         //    {
         //        if (context.Database.GetPendingMigrations().Count() == 0) //database 'e aktarılmayı bekleyen bir migration yoksa!
         //        {
-        //            if(context is ShopContext) //gönderilen context Shop Context mi?
+        //            if (context is ShopContext) //gönderilen context Shop Context mi?
         //            {
         //                ShopContext _context = context as ShopContext;
 
@@ -209,8 +210,42 @@ namespace EntityFramework
         //        new Category(){Name="Bilgisayar"}
 
         //    };
-        //}
+        //} 
+        #endregion
 
+        //LINQ
+
+        public class CustomerDemo
+        {
+            public CustomerDemo()
+            {
+                Orders = new List<OrderDemo>();
+            }
+            public string CustomerId { get; set; }
+
+            public string Name { get; set; }
+
+            public int OrderCount { get; set; }
+
+            public List<OrderDemo> Orders { get; set; } //order demo'yu customer demo ile ilişkilendirdim! //her bir customer'ın birden fazla order bilgisi olacak dedim!
+
+        }
+
+        public class OrderDemo
+        {
+            public int OrderId { get; set; }
+
+            public decimal Total { get; set; }
+
+            public List<ProductDemo> Products { get; set; }//product demo'yu order demo ile ilişkilendirdim! //her bir order'ın birden fazla product bilgisi olacak dedim!
+        }
+
+        public class ProductDemo
+        {
+            public int ProductId { get; set; }
+
+            public string Name { get; set; }
+        }
         class Program
         {
             static void Main(string[] args)
@@ -489,6 +524,73 @@ namespace EntityFramework
                         .FirstOrDefault();
                     Console.WriteLine($"name: {maxproduct.ProductName} price:{maxproduct.UnitPrice}");
                     #endregion
+
+                    //İLİŞKİLİ TABLOLAR ÜZERİNDEN SORGULAMA YAPMA(ÇOKLU TABLO)-------------------------------------
+
+                    #region müşteribilgilerialtındasiparişdetaylarınıgetirme(çoklutablo)
+                    var musteriler = db.Customers
+                                  .Where(i => i.Orders.Count() > 0) //customer tablosunda orders navigation property olduğu için onlara da erişebiliyorum! BURADA COUNT YERİNE ANY() DERSEM DE AYNI SONUÇ GELİR, EN AZ BİR KAYIT VARSA BANA AŞAĞIDAKİLERİ GETİRMESİNİ SÖYLEMİŞ OLURUM!
+                                  .Select(i => new CustomerDemo
+                                  {
+                                      CustomerId = i.CustomerId,
+                                      Name = i.ContactName,
+                                      OrderCount = i.Orders.Count(),
+                                      Orders = i.Orders
+                                      .Select(a => new OrderDemo //CUSTOMER DAN ORDER A NAVIGATION PROPERTYSI OLDUĞUNDAN GECEBİLDİĞİM İÇİN ORDER DAN DA ORDER DETAILS E NAVIGATION PROPERTYSI OLDUĞUNDAN GEÇEBİLİRİM!
+                            {
+                                          OrderId = a.OrderId,
+                                          Total = (decimal)a.OrderDetails.Sum(od => od.Quantity * od.UnitPrice),
+                                          Products=a.OrderDetails.Select(p=>new ProductDemo
+                                          {
+                                              ProductId=p.ProductId,
+                                              Name=p.Product.ProductName
+                                          }).ToList()
+                                          
+                                      }).ToList()
+                                  })
+                                  .OrderByDescending(i => i.OrderCount) //en fazla siparişi olandan az olana doğru sıraladım!
+                                  .ToList();
+
+                    foreach (var musteri in musteriler)
+                    {
+                        Console.WriteLine(musteri.CustomerId + " " + musteri.Name + " " + musteri.OrderCount);
+
+                        foreach (var order in musteri.Orders) //customer dan order a ulaştığım için bilgilerine de onun foreachi içine foreach açarak ulaşacağım! 
+                        {
+                            Console.WriteLine($"orderid: {order.OrderId} total: {order.Total}");
+
+                            foreach (var product in order.Products)
+                            {
+                                Console.WriteLine($"productid: {product.ProductId} name:{product.Name}");
+                            }
+                        }
+                    }
+                    #endregion
+
+                    //KLASIK SQL SORGULARININ EF İLE KULLANILMASI--------------------------------------------------
+
+                    var city = "London";
+                    var musterilerr = db.Customers
+                        // .FromSqlRaw("select * from customers where city='London'") //bunu yazdığımda sadece miami de yaşayan customerları getirir!
+                        .FromSqlRaw("select * from customers where city={0}", city) //=>yukarıdaki kodla aynı işi yapar!!!!!!!!!!!!!
+                        .ToList();
+
+                    foreach (var item in musterilerr)
+                    {
+                        Console.WriteLine(item.ContactName);
+                    }
+
+                }
+
+                using(var db=new CustomNRTHWNDContext())
+                {
+                    var customers = db.CustomerOrders
+                        .FromSqlRaw("select c.CustomerID as CustomerId,c.ContactName as FirstName,count(*) as OrderCount from Customers c inner join Orders o on c.CustomerID=o.CustomerID group by c.CustomerID").ToList();
+
+                    foreach (var item in customers)
+                    {
+                        Console.WriteLine("orderid: {0} firstname: {1} order count:{2}",item.CustomerId,item.FirstName,item.OrderCount);
+                    }
                 }
             }
             //Veri Tabanına Kayıt Ekleme
