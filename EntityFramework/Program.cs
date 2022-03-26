@@ -344,46 +344,150 @@ namespace EntityFramework
                 //DataSeeding.Seed(new ShopContext()); 
                 #endregion
 
+                //LINQ SORGULARI-------------------------------------------------------------------------------------------
+
                 using (var db = new NORTHWNDContext())
                 {
                     //Tüm müşteri kayıtlarını getiriniz!
 
                     #region müşterikayıtlarınıgetirme
-                    //var customers = db.Customers.ToList();
+                    var customerss = db.Customers.ToList();
 
-                    //foreach (var item in customers)
-                    //{
-                    //    Console.WriteLine(item.FirstName + " "+ item.LastName);
-                    //} 
+                    foreach (var c in customerss)
+                    {
+                        Console.WriteLine(c.ContactName);
+                    }
                     #endregion
 
                     //Tüm müşteri kayıtlarının sadece adress ve city bilgilerini getiriniz!
 
                     #region sadeceadressvecitybilgilerinigetirme
-                    //var customers = db.Customers.Select(c => new
-                    //{
-                    //    c.Address,
-                    //    c.City
-                    //}); ;
+                    var customers = db.Customers.Select(c => new
+                    {
+                        c.Address,
+                        c.City
+                    }); ;
 
-                    //foreach (var item in customers)
-                    //{
-                    //   Console.WriteLine(item.Address + " "+ item.City);
-                    //} 
+                    foreach (var item in customers)
+                    {
+                        Console.WriteLine(item.Address + " " + item.City);
+                    }
                     #endregion
 
                     //Londrada yaşayan müşterilerin contactname' ini getirir! 
 
                     #region londradayaşayanlarıncontactnameinigetirme
-                    //var customers = db.Customers
-                    //    .Where(i => i.City == "London")
-                    //    .Select(s=>new { s.ContactName }) //içerisine belirtilen kolonu getirir sadece!
-                    //    .ToList(); //where ile koşulumu koyup sorgumu belirtip to list e uygun olan sonuçları alıyorum!
+                    var customerrs = db.Customers
+                        .Where(i => i.City == "London")
+                        .Select(s => new { s.ContactName }) //içerisine belirtilen kolonu getirir sadece!
+                        .ToList(); //where ile koşulumu koyup sorgumu belirtip to list e uygun olan sonuçları alıyorum!
 
-                    //foreach (var item in customers)
-                    //{
-                    //    Console.WriteLine(item.ContactName);
-                    //} 
+                    foreach (var item in customerrs)
+                    {
+                        Console.WriteLine(item.ContactName); //new le anonymous object seçtiğim için contact name'i de belirtmem gerekiyor!
+                    }
+                    #endregion
+
+                    //"Beeverages" kategorisine ait ürünlerin tanımlarını getiriniz!
+
+                    #region "Beeverages"kategorisineaitürünlerintanımlarını
+                    var products = db.Categories
+                        .Where(i => i.CategoryName == "Beverages")
+                        .Select(i => i.Description)
+                        .ToList();
+
+                    foreach (var item in products)
+                    {
+                        Console.WriteLine(item); //item bizim için şu anda zaten product!
+                    }
+                    #endregion
+
+                    //En son eklenen 5 ürün bilgisini alma!
+
+                    #region Ensoneklenen5ürünbilgisinialma
+                    var productss = db.Products.Take(5); //böyle dersem take tablonun en üstünden(ilk eklenen) 5 ürünü getirir! toList gibi direk sorguyu çalıştırır! tekrar listeye çevirmenin anlamı yok !
+
+                    var productt = db.Products.OrderByDescending(i => i.ProductId).Take(5); //bu şekilde dersem bana eklenen son 5 ürünü getirir!
+                    foreach (var p in productss)
+                    {
+                        Console.WriteLine(p.ProductName);
+                    }
+                    #endregion
+
+                    //Fiyatı 10 ile 30 arasında olan ürünlerin isim,fiyat,fiyat bilgilerini azalan şekilde getirin!
+
+                    #region Fiyatı10ile30arasındaolanürünlerinisim,fiyat,fiyatbilgileriniazalanşekildegetirin
+                    var productts = db.Products
+                        .Where(i => i.UnitPrice >= 10 && i.UnitPrice <= 30)
+                        .Select(i => new { i.ProductName, i.UnitPrice })
+                        .OrderByDescending(i => i.UnitPrice)
+                        .ToList();
+
+                    foreach (var p in productts)
+                    {
+                        Console.WriteLine(p.ProductName + " " + p.UnitPrice);
+                    }
+                    #endregion
+
+                    //"Beverages" kategorisindeki ürünlerin ortalama fiyatı nedir?
+
+                    #region "Beverages"kategorisindekiürünlerinortalamafiyatınedir?
+                    var ortalama = db.Products
+                        .Where(i => i.CategoryId == 1) //categoryıd si 1 olan beverages olduğu için!
+                        .Average(i => i.UnitPrice);
+
+                    Console.WriteLine("ortalama fiyat: {0}", ortalama);
+                    #endregion
+
+                    //"Beverages" kategorisinde kaç ürün vardır?
+
+                    #region "Beverages"kategorisindekaçürünvardır?
+                    var adet = db.Products
+                        .Count(i => i.CategoryId == 1);
+
+                    Console.WriteLine("adet: {0}", adet);
+                    #endregion
+
+                    //"Beverages" veya "Condiments kategorilerindeki ürünlerin toplam fiyatı?
+
+                    #region "Beverages"veya"Condimentskategorilerindekiürünlerintoplamfiyatı?
+                    var toplam = db.Products
+                        .Where(i => i.CategoryId == 1 || i.CategoryId == 2)
+                        .Sum(i => i.UnitPrice);
+
+                    Console.WriteLine("toplam: {0}", toplam);
+                    #endregion
+
+                    //"Tea" kelimesini içeren ürünleri getiriniz!
+
+                    #region "Tea"kelimesiniiçerenürünlerigetiriniz!
+                    var produccts = db.Products
+                        .Where(i => i.ProductName.ToLower().Contains("Tea")) //contains sql deki like a karşılık gelir!!!
+                        .ToList(); //listeye çevirmek için bunu demeyip foreach dersem de sorgum yine çalışacaktır!
+
+                    foreach (var p in produccts)
+                    {
+                        Console.WriteLine(p.ProductName);
+                    }
+                    #endregion
+
+                    //En pahalı ve en ucuz ürün hangisidir?
+
+                    #region Enpahalıveenucuzürünlerhangileridir?
+                    var minPrice = db.Products.Min(i => i.UnitPrice);
+
+                    var maxPrice = db.Products.Max(i => i.UnitPrice);
+
+                    Console.WriteLine("min: {0} max:{1}", minPrice, maxPrice);
+
+                    var minproduct = db.Products
+                        .Where(i => i.UnitPrice == (db.Products.Min(a => a.UnitPrice)))
+                        .FirstOrDefault();
+                    Console.WriteLine($"name: {minproduct.ProductName} price:{minproduct.UnitPrice}");
+                    var maxproduct = db.Products
+                        .Where(i => i.UnitPrice == (db.Products.Max(a => a.UnitPrice)))
+                        .FirstOrDefault();
+                    Console.WriteLine($"name: {maxproduct.ProductName} price:{maxproduct.UnitPrice}");
                     #endregion
                 }
             }
