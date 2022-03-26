@@ -372,7 +372,19 @@ namespace EntityFramework
                     //} 
                     #endregion
 
-                    //NewYorkta yaşayan müşterilerin 
+                    //Londrada yaşayan müşterilerin contactname' ini getirir! 
+
+                    #region londradayaşayanlarıncontactnameinigetirme
+                    //var customers = db.Customers
+                    //    .Where(i => i.City == "London")
+                    //    .Select(s=>new { s.ContactName }) //içerisine belirtilen kolonu getirir sadece!
+                    //    .ToList(); //where ile koşulumu koyup sorgumu belirtip to list e uygun olan sonuçları alıyorum!
+
+                    //foreach (var item in customers)
+                    //{
+                    //    Console.WriteLine(item.ContactName);
+                    //} 
+                    #endregion
                 }
             }
             //Veri Tabanına Kayıt Ekleme
