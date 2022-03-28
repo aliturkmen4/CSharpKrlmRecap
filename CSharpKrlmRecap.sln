@@ -47,13 +47,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interface", "Interface\Inte
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExceptionandExceptionHandling", "ExceptionanExceptionHandling\ExceptionandExceptionHandling.csproj", "{813CAD5E-5B28-4952-96B1-577D65F64CB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThrowingtheException", "ThrowingtheException\ThrowingtheException.csproj", "{D0CA0B27-B932-45D1-85FF-D524E5F00AFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThrowingtheException", "ThrowingtheException\ThrowingtheException.csproj", "{D0CA0B27-B932-45D1-85FF-D524E5F00AFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExceptionApplication", "ExceptionApplication\ExceptionApplication.csproj", "{1535D91A-BE98-4D0B-A52F-6D8188628C6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExceptionApplication", "ExceptionApplication\ExceptionApplication.csproj", "{1535D91A-BE98-4D0B-A52F-6D8188628C6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomException", "CustomException\CustomException.csproj", "{52E6C9C1-BD8D-40ED-9B42-98060A58FEB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomException", "CustomException\CustomException.csproj", "{52E6C9C1-BD8D-40ED-9B42-98060A58FEB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFramework", "EntityFramework\EntityFramework.csproj", "{8AD30E44-3807-4EF4-B9A3-FC8CE7727C20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFramework", "EntityFramework\EntityFramework.csproj", "{8AD30E44-3807-4EF4-B9A3-FC8CE7727C20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Attributes", "Attributes\Attributes.csproj", "{7F4D42D6-EEDD-428E-86A7-1EDD38D9EA1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -165,6 +167,10 @@ Global
 		{8AD30E44-3807-4EF4-B9A3-FC8CE7727C20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AD30E44-3807-4EF4-B9A3-FC8CE7727C20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AD30E44-3807-4EF4-B9A3-FC8CE7727C20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F4D42D6-EEDD-428E-86A7-1EDD38D9EA1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F4D42D6-EEDD-428E-86A7-1EDD38D9EA1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F4D42D6-EEDD-428E-86A7-1EDD38D9EA1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F4D42D6-EEDD-428E-86A7-1EDD38D9EA1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
