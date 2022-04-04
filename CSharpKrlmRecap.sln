@@ -57,7 +57,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFramework", "EntityFr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Attributes", "Attributes\Attributes.csproj", "{7F4D42D6-EEDD-428E-86A7-1EDD38D9EA1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Delegates", "Delegates\Delegates.csproj", "{F665DB5B-A6EB-4ED2-AD55-5527BF8CE21B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delegates", "Delegates\Delegates.csproj", "{F665DB5B-A6EB-4ED2-AD55-5527BF8CE21B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enum", "Enum\Enum.csproj", "{6FF83A77-3062-4213-872F-269F55D9B943}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -177,6 +179,10 @@ Global
 		{F665DB5B-A6EB-4ED2-AD55-5527BF8CE21B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F665DB5B-A6EB-4ED2-AD55-5527BF8CE21B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F665DB5B-A6EB-4ED2-AD55-5527BF8CE21B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FF83A77-3062-4213-872F-269F55D9B943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FF83A77-3062-4213-872F-269F55D9B943}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FF83A77-3062-4213-872F-269F55D9B943}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FF83A77-3062-4213-872F-269F55D9B943}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
